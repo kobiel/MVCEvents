@@ -49,9 +49,9 @@ namespace MVCEvents.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "UserName")]
+        
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,21 +64,58 @@ namespace MVCEvents.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
+
+
+        [Required(ErrorMessage = "Please insert first-name")]
+        [Display(Name = "First-Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please insert last-name")]
+        [Display(Name = "Last-Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Please insert date of birth")]
+        [Display(Name = "Date-Of-Birth")]
+        public string DateOfBirth { get; set; }
+
+
+        [Required(ErrorMessage = "Please insert email")]
         [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "The email address is invalid")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "* Please insert user-name")]
+        [Display(Name = "User-Name")]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Please insert password")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "Please insert password again")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirm-Password")]
+        [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
+        // Return a pre-poulated instance of AppliationUser:
+        public ApplicationUser GetUser()
+        {
+            var user = new ApplicationUser()
+            {
+                UserName = this.UserName,
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                //Password=this.Password,
+                DateOfBirth=this.DateOfBirth,
+                Email=this.Email,
+
+            };
+            return user;
+        }
     }
 
     public class ResetPasswordViewModel

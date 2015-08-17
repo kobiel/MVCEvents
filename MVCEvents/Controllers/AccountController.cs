@@ -9,26 +9,35 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVCEvents.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MVCEvents.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+       // private ApplicationSignInManager _signInManager;
+        //private ApplicationUserManager _userManager;
+
+        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public MVCEventDbContext Db { get; private set; }
 
         public AccountController()
+             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MVCEventDbContext())))
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
-            SignInManager = signInManager;
+           // SignInManager = signInManager;
+            //UserManager.UserValidator = new UserValidator<ApplicationUser>(UserManager) { AllowOnlyAlphanumericUserNames = false };
+            Db = new MVCEventDbContext();
         }
 
-        public ApplicationSignInManager SignInManager
+
+
+        /*public ApplicationSignInManager SignInManager
         {
             get
             {
@@ -50,7 +59,7 @@ namespace MVCEvents.Controllers
             {
                 _userManager = value;
             }
-        }
+        }*/
 
         //
         // GET: /Account/Login
@@ -75,8 +84,8 @@ namespace MVCEvents.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var result = await UserManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            /*switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
@@ -88,9 +97,9 @@ namespace MVCEvents.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
-            }
+            }*/
         }
-
+        /*
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -120,7 +129,7 @@ namespace MVCEvents.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            //var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -132,7 +141,7 @@ namespace MVCEvents.Controllers
                     ModelState.AddModelError("", "Invalid code.");
                     return View(model);
             }
-        }
+        }*/
 
         //
         // GET: /Account/Register
@@ -151,11 +160,33 @@ namespace MVCEvents.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                // Remove leading and trailing spaces 
+                model.UserName = model.UserName.Trim(); 
+                ApplicationUser user = await UserManager.FindByNameAsync(model.UserName); ;
+                if (user != null)
+                    ModelState.AddModelError("UserName", "שם משתמש כבר קיים");
+                // Display errors if has
+                if (!ModelState.IsValid)
+                    return View(model);
+                // Create token and user
+                //string confirmationToken = CreateConfirmationToken();
+                user = new ApplicationUser()
+                {
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.UserName,
+                    Email=model.Email,
+                    //Password=model.Password,
+                   // ConfirmationToken = confirmationToken,
+                    EmailConfirmed = false,
+                    RegistrationDate = DateTime.Today
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
+               
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await AddUserToRole(user, "User");
+                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -171,7 +202,7 @@ namespace MVCEvents.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        /*
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -183,7 +214,7 @@ namespace MVCEvents.Controllers
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
-        }
+        }*/
 
         //
         // GET: /Account/ForgotPassword
@@ -287,7 +318,7 @@ namespace MVCEvents.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
-            var userId = await SignInManager.GetVerifiedUserIdAsync();
+            var userId = await Manager.GetVerifiedUserIdAsync();
             if (userId == null)
             {
                 return View("Error");
@@ -329,7 +360,7 @@ namespace MVCEvents.Controllers
             }
 
             // Sign in the user with this external login provider if the user already has a login
-            var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+            //var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -374,7 +405,7 @@ namespace MVCEvents.Controllers
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -403,7 +434,7 @@ namespace MVCEvents.Controllers
             return View();
         }
 
-        protected override void Dispose(bool disposing)
+       /* protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -421,7 +452,7 @@ namespace MVCEvents.Controllers
             }
 
             base.Dispose(disposing);
-        }
+        }*/
 
         #region Helpers
         // Used for XSRF protection when adding external logins
