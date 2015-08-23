@@ -26,6 +26,7 @@ namespace MVCEvents.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            Db = new MVCEventDbContext();
         }
 
         public ApplicationSignInManager SignInManager
@@ -51,6 +52,8 @@ namespace MVCEvents.Controllers
                 _userManager = value;
             }
         }
+
+        public MVCEventDbContext Db { get; private set; }
 
         //
         // GET: /Account/Login
@@ -151,7 +154,8 @@ namespace MVCEvents.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Password = model.Password, Email = model.Email,
+                                                FirstName = model.FirstName, LastName = model.LastName, DateOfBirth = model.DateOfBirth};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -163,7 +167,7 @@ namespace MVCEvents.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Create", "Events");
                 }
                 AddErrors(result);
             }

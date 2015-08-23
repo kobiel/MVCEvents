@@ -5,13 +5,13 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace MVCEvents.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-
         [Required(ErrorMessage = "Please insert first-name")]
         [Display(Name = "First-Name")]
         public string FirstName { get; set; }
@@ -25,9 +25,16 @@ namespace MVCEvents.Models
         public string DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Please insert email")]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         [EmailAddress(ErrorMessage = "The email address is invalid")]
-        public string Email { get; set; }
+        public override string Email { get; set; }
+
+        [Required(ErrorMessage = "Please insert password")]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
 
         [Required(ErrorMessage = "* Please insert user-name")]
         [Display(Name = "User-Name")]
@@ -38,11 +45,7 @@ namespace MVCEvents.Models
 
         public string ConfirmationToken { get; set; }
 
-        
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd MMMM yyyy}", HtmlEncode = true, ApplyFormatInEditMode = true)]
-        public DateTime RegistrationDate { get; set; }
+        public List<Event> Events { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

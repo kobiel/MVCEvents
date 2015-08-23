@@ -64,26 +64,6 @@ namespace MVCEvents.Models
 
     public class RegisterViewModel
     {
-
-
-        [Required(ErrorMessage = "Please insert first-name")]
-        [Display(Name = "First-Name")]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Please insert last-name")]
-        [Display(Name = "Last-Name")]
-        public string LastName { get; set; }
-
-        [Required(ErrorMessage = "Please insert date of birth")]
-        [Display(Name = "Date-Of-Birth")]
-        public string DateOfBirth { get; set; }
-
-
-        [Required(ErrorMessage = "Please insert email")]
-        [Display(Name = "Email")]
-        [EmailAddress(ErrorMessage = "The email address is invalid")]
-        public string Email { get; set; }
-
         [Required(ErrorMessage = "* Please insert user-name")]
         [Display(Name = "User-Name")]
         public string UserName { get; set; }
@@ -100,6 +80,22 @@ namespace MVCEvents.Models
         [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required(ErrorMessage = "Please insert email")]
+        [Display(Name = "Email")]
+        [EmailAddress(ErrorMessage = "The email address is invalid")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Please insert first-name")]
+        [Display(Name = "First-Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please insert last-name")]
+        [Display(Name = "Last-Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Please insert date of birth")]
+        [Display(Name = "Date-Of-Birth")]
+        public string DateOfBirth { get; set; }
 
         // Return a pre-poulated instance of AppliationUser:
         public ApplicationUser GetUser()
@@ -107,12 +103,11 @@ namespace MVCEvents.Models
             var user = new ApplicationUser()
             {
                 UserName = this.UserName,
+                Password = this.Password,
+                Email = this.Email,
                 FirstName = this.FirstName,
                 LastName = this.LastName,
-                //Password=this.Password,
                 DateOfBirth=this.DateOfBirth,
-                Email=this.Email,
-
             };
             return user;
         }

@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCEvents.Models
 {
     public class Event
     {
-        public String IdEvent { get; set; }
+        [Key]
+        public String EventId { get; set; }
+
         public String Type { get; set; }
+
+        [Required(ErrorMessage = "Please insert date of event")]
+        [Display(Name = "Date-Of-Event")]
         public DateTime Date { get; set; }
+
         public List<Guest> GuestsList { get; set; }
     }
 }

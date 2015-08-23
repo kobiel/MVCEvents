@@ -13,7 +13,7 @@ namespace MVCEvents.Models
         /// <summary>
         /// List of users
         /// </summary>
-        public DbSet<User> Users { get; set; }
+        public override IDbSet<ApplicationUser> Users { get; set; }
 
         /// <summary>
         /// List of guest
