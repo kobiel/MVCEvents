@@ -45,7 +45,7 @@ namespace MVCEvents.Models
 
         public string ConfirmationToken { get; set; }
 
-        public List<Event> Events { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

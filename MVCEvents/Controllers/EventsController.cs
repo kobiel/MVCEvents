@@ -21,12 +21,9 @@ namespace MVCEvents.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MVCEventDbContext()));
-            var currentUser = manager.FindById(User.Identity.GetUserId());
-            //var Events = from m in Db.Events
-              //           where m.InviterUserName == currentUser.UserName
-                //         select m;
-            return View();
+            var id = User.Identity.GetUserId();
+            var user = Db.Users.FirstOrDefault(x => x.Id == id);
+            return View(user.Events);
         }
 
         // GET: Event/Details/5
@@ -48,7 +45,6 @@ namespace MVCEvents.Controllers
             try
             {
                 var newEvent = new Event { Type = e.Type, Date = e.Date};
-                //Db.Events.Add(newEvent);
                 var user = Db.Users.Find(User.Identity.GetUserId());
                 user.Events.Add(newEvent);
                 Db.SaveChanges();
