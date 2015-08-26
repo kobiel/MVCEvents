@@ -10,11 +10,13 @@ namespace MVCEvents.Models
     public class Event
     {
         [Key]
-        public String EventId { get; set; }
+        public int EventId { get; set; }
 
         public String Type { get; set; }
 
         [Required(ErrorMessage = "Please insert date of event")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [DataType(DataType.Date)]
         [Display(Name = "Date-Of-Event")]
         public DateTime Date { get; set; }
 
