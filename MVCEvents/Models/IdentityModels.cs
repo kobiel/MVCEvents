@@ -13,18 +13,18 @@ namespace MVCEvents.Models
     public class ApplicationUser : IdentityUser
     {
         [Required(ErrorMessage = "Please insert first-name")]
-        [Display(Name = "First-Name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please insert last-name")]
-        [Display(Name = "Last-Name")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please insert date of birth")]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.Date)]
-        [Display(Name = "Date-Of-Birth")]
-        public string DateOfBirth { get; set; }
+        [Display(Name = "Date Of Birth")]
+        public DateTime DateOfBirth { get; set; }
 
         [Required(ErrorMessage = "Please insert email")]
         [DataType(DataType.EmailAddress)]
@@ -39,7 +39,7 @@ namespace MVCEvents.Models
         public string Password { get; set; }
 
         [Required(ErrorMessage = "* Please insert user-name")]
-        [Display(Name = "User-Name")]
+        [Display(Name = "User Name")]
         public override string UserName { get; set; }
 
         [Display(Name = "confirm")]

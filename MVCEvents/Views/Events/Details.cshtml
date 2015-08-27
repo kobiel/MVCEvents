@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Guests list of the @Model.Type on @Model.Date</h2>
+<h2>Guests list of the @Model.Type on @Model.Date.ToShortDateString()</h2>
 
 <p>
     @Html.ActionLink("Add new guest", "Create", "Guest", new { id = Model.EventId }, null)

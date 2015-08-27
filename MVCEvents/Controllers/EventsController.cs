@@ -57,7 +57,7 @@ namespace MVCEvents.Controllers
         [HttpPost]
         public ActionResult Create(Event e)
         {
-            if (e.Type == null)
+            if (e.Type == null || e.Date == DateTime.MinValue)
             {
                 return RedirectToAction("Index");
             }
@@ -98,18 +98,18 @@ namespace MVCEvents.Controllers
 
         // POST: Event/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Event e)
         {
-            //if (e.Type == null)
-            //{
-            //    return RedirectToAction("Index");
-            //}
+            if (e.Type == null || e.Date == DateTime.MinValue)
+            {
+                return RedirectToAction("Index");
+            }
             try
             {
-                //var newEvent = new Event { Type = e.Type, Date = e.Date };
-                //var user = Db.Users.Find(User.Identity.GetUserId());
-                //user.Events.Add(newEvent);
-                //Db.SaveChanges();
+                var EventId = Db.Events.FirstOrDefault(x => x.EventId == id);
+                EventId.Date = e.Date;
+                EventId.Type = e.Type;
+                Db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

@@ -9,11 +9,11 @@ namespace MVCEvents.Models
     public class Guest
     {
         [Required(ErrorMessage = "Please insert first-name")]
-        [Display(Name = "First-Name")]
+        [Display(Name = "First Name")]
         public String FirstName { get; set; }
 
         [Required(ErrorMessage = "Please insert last-name")]
-        [Display(Name = "Last-Name")]
+        [Display(Name = "Last Name")]
         public String LastName { get; set; }
 
         [Key]

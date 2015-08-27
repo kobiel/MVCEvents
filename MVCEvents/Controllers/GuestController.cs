@@ -18,11 +18,6 @@ namespace MVCEvents.Controllers
             Db = new MVCEventDbContext();
         }
 
-
-
-
-       
-
          // GET: Guest/Create
         public ActionResult Create()
         {
@@ -43,7 +38,7 @@ namespace MVCEvents.Controllers
                 Event eve = Db.Events.FirstOrDefault(x => x.EventId == id);
                 eve.GuestsList.Add(newGuest);
                 Db.SaveChanges();
-                return RedirectToAction("_GuestDetails", "Events");
+                return RedirectToAction("Details", "Events");
             }
             catch
             {

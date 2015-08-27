@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit the @Model.Type on @Model.Date event</h2>
+<h2>Edit the @Model.Type event on @Model.Date.ToShortDateString()</h2>
 
 @using (Html.BeginForm())
 {
@@ -47,5 +47,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Event List", "Index")
 </div>

@@ -15,12 +15,11 @@ namespace MVCEvents.Models
         public String Type { get; set; }
 
         [Required(ErrorMessage = "Please insert date of event")]
-        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [DataType(DataType.Date)]
-        [Display(Name = "Date-Of-Event")]
+        [Display(Name = "Date Of Event")]
         public DateTime Date { get; set; }
 
-        //public List<Guest> GuestsList { get; set; }
         public virtual ICollection<Guest> GuestsList { get; set; }
     }
 }

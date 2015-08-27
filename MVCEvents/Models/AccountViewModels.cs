@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVCEvents.Models
@@ -65,7 +66,7 @@ namespace MVCEvents.Models
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "* Please insert user-name")]
-        [Display(Name = "User-Name")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Please insert password")]
@@ -76,7 +77,7 @@ namespace MVCEvents.Models
 
         [Required(ErrorMessage = "Please insert password again")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm-Password")]
+        [Display(Name = "Confirm Password")]
         [System.Web.Mvc.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
@@ -86,16 +87,16 @@ namespace MVCEvents.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please insert first-name")]
-        [Display(Name = "First-Name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Please insert last-name")]
-        [Display(Name = "Last-Name")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please insert date of birth")]
-        [Display(Name = "Date-Of-Birth")]
-        public string DateOfBirth { get; set; }
+        [Display(Name = "Date Of Birth")]
+        public DateTime DateOfBirth { get; set; }
 
         // Return a pre-poulated instance of AppliationUser:
         public ApplicationUser GetUser()
