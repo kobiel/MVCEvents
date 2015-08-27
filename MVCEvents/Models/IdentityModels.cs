@@ -21,6 +21,8 @@ namespace MVCEvents.Models
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "Please insert date of birth")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
+        [DataType(DataType.Date)]
         [Display(Name = "Date-Of-Birth")]
         public string DateOfBirth { get; set; }
 

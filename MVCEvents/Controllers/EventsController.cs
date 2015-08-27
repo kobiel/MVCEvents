@@ -29,7 +29,22 @@ namespace MVCEvents.Controllers
         // GET: Event/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            if (id < 1)
+            {
+                return RedirectToAction("Index");
+            }
+            Event requestedEvent = Db.Events.Find(id);
+            var userId = User.Identity.GetUserId();
+            var user = Db.Users.FirstOrDefault(x => x.Id == userId);
+            if (requestedEvent == null)
+            {
+                return HttpNotFound();
+            }
+            else if (!user.Events.Contains(requestedEvent))
+            {
+                return RedirectToAction("Index");
+            }
+            return View(requestedEvent);
         }
 
         // GET: Event/Create
@@ -42,6 +57,10 @@ namespace MVCEvents.Controllers
         [HttpPost]
         public ActionResult Create(Event e)
         {
+            if (e.Type == null)
+            {
+                return RedirectToAction("Index");
+            }
             try
             {
                 var newEvent = new Event { Type = e.Type, Date = e.Date};
@@ -59,17 +78,38 @@ namespace MVCEvents.Controllers
         // GET: Event/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            if (id < 1)
+            {
+                return RedirectToAction("Index");
+            }
+            Event requestedEvent = Db.Events.Find(id);
+            var userId = User.Identity.GetUserId();
+            var user = Db.Users.FirstOrDefault(x => x.Id == userId);
+            if (requestedEvent == null)
+            {
+                return HttpNotFound();
+            }
+            else if (!user.Events.Contains(requestedEvent))
+            {
+                return RedirectToAction("Index");
+            }
+            return View(requestedEvent);
         }
 
         // POST: Event/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
+            //if (e.Type == null)
+            //{
+            //    return RedirectToAction("Index");
+            //}
             try
             {
-                // TODO: Add update logic here
-
+                //var newEvent = new Event { Type = e.Type, Date = e.Date };
+                //var user = Db.Users.Find(User.Identity.GetUserId());
+                //user.Events.Add(newEvent);
+                //Db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

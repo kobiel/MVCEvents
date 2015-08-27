@@ -1,0 +1,51 @@
+﻿@model MVCEvents.Models.Event
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit the @Model.Type on @Model.Date event</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.EventId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem { Text = "Wedding", Value = "Wedding" });
+                    listItems.Add(new SelectListItem { Text = "Birthday", Value = "Birthday" });
+                    listItems.Add(new SelectListItem { Text = "Bar Mitzvah", Value = "Bar Mitzvah" });
+                    listItems.Add(new SelectListItem { Text = "Baby Shower", Value = "Baby Shower" });
+                }
+                @Html.DropDownListFor(model => model.Type, listItems, "-- Select Event --")
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,18 @@
+﻿@model MVCEvents.Models.Event
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Guests list of the @Model.Type on @Model.Date</h2>
+
+<div class="col-md-12">
+    <section id="socialLoginForm">
+        @Html.Partial("_GuestDetails", Model.GuestsList)
+    </section>
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create") |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

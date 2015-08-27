@@ -20,6 +20,7 @@ namespace MVCEvents.Models
         [Display(Name = "Date-Of-Event")]
         public DateTime Date { get; set; }
 
-        public List<Guest> GuestsList { get; set; }
+        //public List<Guest> GuestsList { get; set; }
+        public virtual ICollection<Guest> GuestsList { get; set; }
     }
 }
