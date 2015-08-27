@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<MVCEvents.Models.Guest>
 
-<p>
-    @Html.ActionLink("Add new guest", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -30,7 +28,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Email }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Email }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Email })
         </td>
     </tr>
