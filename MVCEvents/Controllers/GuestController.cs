@@ -38,7 +38,7 @@ namespace MVCEvents.Controllers
                 Event eve = Db.Events.FirstOrDefault(x => x.EventId == id);
                 eve.GuestsList.Add(newGuest);
                 Db.SaveChanges();
-                return RedirectToAction("Details", "Events");
+                return RedirectToAction("Details", "Events", new { id = id });
             }
             catch
             {
@@ -49,18 +49,20 @@ namespace MVCEvents.Controllers
          // GET: Guest/Delete
         public ActionResult Delete(int id)
         {
-            return View();
+            Guest Guest2Remove = Db.Guests.FirstOrDefault(x => x.GuestId == id);
+            return View(Guest2Remove);
         }
 
         // POST: Guest/Delete
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(Guest g, int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                Guest Guest2Remove = Db.Guests.FirstOrDefault(x => x.GuestId == id);
+                Db.Guests.Remove(Guest2Remove);
+                Db.SaveChanges();
+                return RedirectToAction("Index", "Events");
             }
             catch
             {

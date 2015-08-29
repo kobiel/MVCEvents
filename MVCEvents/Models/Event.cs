@@ -9,7 +9,7 @@ namespace MVCEvents.Models
 {
     public class Event
     {
-        [Key]
+        //[Key]
         public int EventId { get; set; }
 
         public String Type { get; set; }

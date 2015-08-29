@@ -7,7 +7,7 @@
 <h2>Guests list of the @Model.Type on @Model.Date.ToShortDateString()</h2>
 
 <p>
-    @Html.ActionLink("Add new guest", "Create", "Guest", new { id = Model.EventId }, null)
+    @Html.ActionLink("Add New Guest", "Create", "Guest", new { id = Model.EventId }, null)
 </p>
 
 <div class="col-md-12">
@@ -16,7 +16,7 @@
     </section>
 </div>
 <p>
-    @Html.ActionLink("Create New", "Create") |
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
-    @Html.ActionLink("Back to Event List", "Index")
+    @Html.ActionLink("Create New Event", "Create") |
+    @Html.ActionLink("Edit This Event", "Edit", new { id = Model.EventId }) |
+    @Html.ActionLink("Back to Events List", "Index")
 </p>

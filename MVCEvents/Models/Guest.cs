@@ -8,6 +8,8 @@ namespace MVCEvents.Models
 {
     public class Guest
     {
+        public int GuestId { get; set; }
+
         [Required(ErrorMessage = "Please insert first-name")]
         [Display(Name = "First Name")]
         public String FirstName { get; set; }
@@ -16,7 +18,7 @@ namespace MVCEvents.Models
         [Display(Name = "Last Name")]
         public String LastName { get; set; }
 
-        [Key]
+        //[Key]
         [Required(ErrorMessage = "Please insert email")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
