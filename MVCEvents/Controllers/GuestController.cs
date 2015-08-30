@@ -21,6 +21,11 @@ namespace MVCEvents.Controllers
          // GET: Guest/Create
         public ActionResult Create()
         {
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -49,6 +54,11 @@ namespace MVCEvents.Controllers
          // GET: Guest/Delete
         public ActionResult Delete(int id)
         {
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             Guest Guest2Remove = Db.Guests.FirstOrDefault(x => x.GuestId == id);
             return View(Guest2Remove);
         }

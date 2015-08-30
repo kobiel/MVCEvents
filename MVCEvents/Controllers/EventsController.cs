@@ -45,7 +45,7 @@ namespace MVCEvents.Controllers
             {
                 return HttpNotFound();
             }
-            else if (!user.Events.Contains(requestedEvent))
+            else if (userId == null || !user.Events.Contains(requestedEvent))
             {
                 return RedirectToAction("Index");
             }
