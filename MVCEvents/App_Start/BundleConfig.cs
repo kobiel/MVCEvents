@@ -24,7 +24,7 @@ namespace MVCEvents
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/new.css",
                       "~/Content/site.css"));
         }
     }
