@@ -21,6 +21,11 @@ namespace MVCEvents.Controllers
         // GET: Event
         public ActionResult Index()
         {
+            var userId = User.Identity.GetUserId();
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var id = User.Identity.GetUserId();
             var user = Db.Users.FirstOrDefault(x => x.Id == id);
             return View(user.Events);
